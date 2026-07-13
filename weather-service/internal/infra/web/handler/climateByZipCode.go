@@ -5,6 +5,8 @@ import (
 	"errors"
 	"net/http"
 	"net/url"
+
+	"github.com/rafaelsouzaribeiro/weather-by-zip-code-with-observability/weather-service/internal/dto"
 )
 
 var (
@@ -14,7 +16,6 @@ var (
 
 func (h *CLimateHandler) GetClimateByZipCode(w http.ResponseWriter, r *http.Request) {
 	cep := r.PathValue("cep")
-
 	viaCep, err := h.usecase.GetViaCep(cep)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
@@ -36,10 +37,11 @@ func (h *CLimateHandler) GetClimateByZipCode(w http.ResponseWriter, r *http.Requ
 	tempF := (temp.Currents.TempC * 1.8) + 32
 	tempK := temp.Currents.TempC + 273.15
 
-	response := map[string]float64{
-		"temp_C": temp.Currents.TempC,
-		"temp_F": tempF,
-		"temp_K": tempK,
+	response := dto.Current{
+		Locale: viaCep.Localidade,
+		TempC:  temp.Currents.TempC,
+		TempF:  tempF,
+		TempK:  tempK,
 	}
 
 	w.Header().Set("Content-Type", "application/json")
