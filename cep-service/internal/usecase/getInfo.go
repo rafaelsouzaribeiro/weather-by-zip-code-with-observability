@@ -18,7 +18,7 @@ func (u *UseCase) GetInfo(ctx context.Context, cep string) (*dto.LocaleOuput, er
 		return nil, err
 	}
 	req, err := http.NewRequestWithContext(ctx, "POST",
-		fmt.Sprintf("http://%s%s",
+		fmt.Sprintf("http://%s:%s",
 			os.Getenv("WEATHER_SERVICE_SERVER_HOST"),
 			os.Getenv("WEATHER_SERVICE_SERVER_PORT")),
 		bytes.NewReader(body))

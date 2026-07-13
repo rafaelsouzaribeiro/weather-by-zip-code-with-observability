@@ -12,6 +12,6 @@ func NewDI() *server.Server {
 	server := server.New(os.Getenv("CEP_SERVICE_SERVER_PORT"))
 	usecase := usecase.NewUseCase()
 	h := handler.NewHandler(usecase)
-	server.AddHandler("POST {cep}", h.ForwardCep)
+	server.AddHandler("POST /{cep}", h.ForwardCep)
 	return server
 }

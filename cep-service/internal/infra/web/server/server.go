@@ -1,6 +1,9 @@
 package server
 
-import "net/http"
+import (
+	"fmt"
+	"net/http"
+)
 
 type Server struct {
 	mux      *http.ServeMux
@@ -25,5 +28,5 @@ func (s *Server) Start() error {
 	for path, handler := range s.handlers {
 		s.mux.HandleFunc(path, handler)
 	}
-	return http.ListenAndServe(s.addr, s.mux)
+	return http.ListenAndServe(fmt.Sprintf(":%s", s.addr), s.mux)
 }

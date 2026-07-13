@@ -32,7 +32,7 @@ func weatherHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/weather", weatherHandler)
+	http.HandleFunc("/", weatherHandler)
 	log.Println("Weather service running on :8181")
 	log.Fatal(http.ListenAndServe(":8181", nil))
 }
