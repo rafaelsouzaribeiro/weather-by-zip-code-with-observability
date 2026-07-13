@@ -7,6 +7,7 @@ import (
 )
 
 func main() {
+
 	server := di.NewDi()
 	err := server.Start()
 	if err != nil {
