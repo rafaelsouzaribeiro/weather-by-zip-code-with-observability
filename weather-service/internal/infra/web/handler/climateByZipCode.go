@@ -7,6 +7,8 @@ import (
 	"net/url"
 
 	"github.com/rafaelsouzaribeiro/weather-by-zip-code-with-observability/weather-service/internal/dto"
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/propagation"
 )
 
 var (
@@ -16,6 +18,15 @@ var (
 
 func (h *CLimateHandler) GetClimateByZipCode(w http.ResponseWriter, r *http.Request) {
 	cep := r.PathValue("cep")
+
+	carrier := propagation.HeaderCarrier(r.Header)
+	ctx := r.Context()
+	ctx = otel.GetTextMapPropagator().Extract(ctx, carrier)
+
+	tracer := otel.Tracer("weather-service")
+	_, span := tracer.Start(ctx, "get-climate-by-zip-code")
+	defer span.End()
+
 	viaCep, err := h.usecase.GetViaCep(cep)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
