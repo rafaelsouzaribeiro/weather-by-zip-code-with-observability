@@ -1,4 +1,4 @@
-# Weather by Zip Code with Observability
+# Weather by Zip Code with Observability (Exercício MBA)
 
 Sistema distribuído em Go com dois microsserviços para consulta de clima por CEP, com **observabilidade** usando **OpenTelemetry (OTEL)** e **Zipkin** para rastreamento distribuído.
 
